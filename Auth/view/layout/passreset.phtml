@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<!--[if IE 8]>         <html class="ie8"> <![endif]-->
+<!--[if IE 9]>         <html class="ie9 gt-ie8"> <![endif]-->
+<!--[if gt IE 9]><!--> 
+<html class="gt-ie8 gt-ie9 not-ie"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>SSTelemática - Ponto Fácil</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+    <!-- Open Sans font from Google CDN -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin" rel="stylesheet" type="text/css">
+
+    <!-- Pixel Admin's stylesheets -->
+    <link href="assets/stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="assets/stylesheets/pixel-admin.min.css" rel="stylesheet" type="text/css">
+    <link href="assets/stylesheets/pages.min.css" rel="stylesheet" type="text/css">
+    <link href="assets/stylesheets/rtl.min.css" rel="stylesheet" type="text/css">
+    <link href="assets/stylesheets/themes.min.css" rel="stylesheet" type="text/css">
+
+    <!--[if lt IE 9]>
+        <script src="assets/javascripts/ie.min.js"></script>
+    <![endif]-->
+
+
+<!-- $DEMO =========================================================================================
+
+    Remove this section on production
+-->
+    <style>
+        #signin-demo {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            z-index: 10000;
+            background: rgba(0,0,0,.6);
+            padding: 6px;
+            border-radius: 3px;
+        }
+        #signin-demo img { cursor: pointer; height: 40px; }
+        #signin-demo img:hover { opacity: .5; }
+        #signin-demo div {
+            color: #fff;
+            font-size: 10px;
+            font-weight: 600;
+            padding-bottom: 6px;
+        }
+        .error{
+            color: red;
+        }
+    </style>
+
+
+
+    <script src="<?php echo $this->basePath('assets/javascripts/jquery-2.2.0.min.js');?>"></script>
+    <script src="<?php echo $this->basePath('assets/javascripts/jquery-ui.js');?>"></script>
+
+
+<!-- Pixel Admin's javascripts -->
+<script src="<?php echo $this->basePath('assets/javascripts/bootstrap.min.js');?>"></script>
+<script src="<?php echo $this->basePath('assets/js/jquery.validate.min.js');?>"></script>
+
+<script>var init = [];</script>
+<script src="<?php echo $this->basePath('assets/js/register_cliente.js') ?>"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var passCheck = false;
+
+        $("#signin-form_id").validate({
+            rules: {
+                senha: {
+                    required: true,
+                },
+                re_senha: {
+                    required: true,
+                    equalTo: "#senha"
+                },
+            
+            },
+            messages: {
+                senha: {
+                    required: "Campo obrigatório",
+                    minlength: "Mínimo 5 caracteres"
+                },
+                re_senha: {
+                    required: "Campo obrigatório",
+                    minlength: "Mínimo 5 caracteres",
+                    equalTo: "Senha não confere"
+                },
+            },
+            submitHandler: function(form) {
+                passCheck = true;
+            }
+        });
+
+        $("#signin-form_id").on("submit", function(){
+            if(passCheck){
+                $(".btn-alterar-senha").attr("disabled", true);
+                $(".btn-alterar-senha").html("Aguarde...");
+                var data = $("#signin-form_id").serialize();
+
+                $("input[name='senha']").val("");
+                $("input[name='re_senha']").val("");
+                
+                $.ajax({
+                    url:"/passReset",
+                    data: data,
+                    type: "post",
+                    success: function(rest){
+                        $(".alert_show").html(rest);
+                        $(".btn-alterar-senha").attr("disabled", false);
+                        $(".btn-alterar-senha").html("Alterar");
+                    }
+                });
+            }
+            return false;
+        })
+
+    });
+
+</script>
+
+
+<!-- / $DEMO -->
+
+</head>
+
+
+<!-- 1. $BODY ======================================================================================
+
+    Body
+
+    Classes:
+    * 'theme-{THEME NAME}'
+    * 'right-to-left'     - Sets text direction to right-to-left
+-->
+<body class="theme-default page-signin">
+
+
+    <!-- Page background -->
+    <div id="page-signin-bg">
+        <!-- Background overlay -->
+        <div class="overlay"></div>
+        <!-- Replace this with your bg image -->
+        <img src="assets/images/bg.jpg" alt="">
+    </div>
+    <!-- / Page background -->
+
+    <!-- Container -->
+    <div class="signin-container">
+
+        <!-- Left side -->
+        <div class="signin-info">
+            <a href="" class="logo">
+                <img src="assets/images/title.png" alt="" style="margin-top: 25%; margin-left: -20px; width:210px; ">
+
+            </a>
+        </div>
+        <!-- / Left side -->
+
+        <!-- Right side -->
+        <div class="signin-form" style="min-width: 332px; width:65%;">
+
+            <?php echo $this->content;?>
+        </div>
+        <!-- Right side -->
+    </div>
+    <!-- / Container -->
+
+</body>
+</html>
