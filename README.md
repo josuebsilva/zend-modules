@@ -1,4 +1,3 @@
-Welcome to the zend-modules wiki!
 # FirebaseMessaging
 ### First add Zend module in your project
 
