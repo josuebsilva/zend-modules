@@ -1,5 +1,7 @@
 # FirebaseMessaging
-### First add Zend module in your project
+### (1) First add Zend module in your project
+
+### (2) Implement this code
 
     use FirebaseMessaging\Http\FirebaseMessaging;
 
